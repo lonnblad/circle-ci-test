@@ -7,18 +7,20 @@ jobs:
       - image: circleci/golang:1.14.4
     steps:
       - checkout
-      - attach_workspace:
-          at: ./artifacts
       - run:
           name: "build"
           command: |
-            go build -o ./artifacts/main main.go
+            go build -o hello-world main.go
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - hello-world
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ./artifacts
+          at: /tmp/workspace
       - run:
           name: "Publish Release on GitHub"
           command: |
