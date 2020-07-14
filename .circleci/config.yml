@@ -11,8 +11,14 @@ jobs:
           name: "build"
           command: |
             go build -o hello-world main.go
+      - run:
+          name: "create dir"
+          command: mkdir /tmp/workspace
       - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
           root: /tmp/workspace
+          # Must be relative path from root
           paths:
             - hello-world
   publish-github-release:
