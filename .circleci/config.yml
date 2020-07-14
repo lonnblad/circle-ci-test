@@ -30,13 +30,14 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            VERSION=$(my-binary --version)
+            # VERSION=$(my-binary --version)
             ghr \
              -t ${GITHUB_TOKEN} \
              -u ${CIRCLE_PROJECT_USERNAME} \
              -r ${CIRCLE_PROJECT_REPONAME} \
              -c ${CIRCLE_SHA1} \
-             -delete ${VERSION} \
+            #  -delete ${VERSION} \
+             -delete v1.0.0 \
              ./artifacts/
 
 workflows:
@@ -49,6 +50,6 @@ workflows:
             - build
           filters:
             branches:
-              ignore: /.*/
+              only: master
             tags:
               only: /^v\d+\.\d+\.\d+$/
